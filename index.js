@@ -142,7 +142,7 @@ const questions = [
         type: "list",
         name: "licenses",
         message: "Which license would you like to use?",
-        choices: ["MIT", "CC--0", ""],
+        choices: ["MIT", "CC--0"],
         when: ({ confirmLicenses }) => {
             if (confirmLicenses) {
                 return true;
@@ -179,6 +179,7 @@ const writeToFile = (data) => {
 function init() {
     return inquirer.prompt(questions);
 }
+
 
 // function call to initialise program
 init()
