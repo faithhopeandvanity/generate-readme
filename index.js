@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 // Inquirer is key to this project.
+//use 'require' to retrieve it.
 const inquirer = require("inquirer");
 //access js file
 //when using 'require', I don't need to put '.js' at end of file name
@@ -10,6 +11,7 @@ const generateMarkdown = require("./utils/generateMarkdown");
 // array of questions for user
 const questions = [
     {
+        //Contact Details
         type: "input",
         name: "name",
         message: "What's your name?",
@@ -23,6 +25,7 @@ const questions = [
                 return false;
             }
         },
+        //Else is used as a catch if nothing is inputted.
     },
     {
         type: "input",
@@ -53,6 +56,7 @@ const questions = [
         },
     },
     {
+        //App details
         type: "input",
         name: "title",
         message: "What is the name of your project?",
@@ -107,6 +111,7 @@ const questions = [
         },
     },
     {
+        //Collaborators
         type: "input",
         name: "contributors",
         message: "How can others contribute to your project?",
@@ -139,6 +144,7 @@ const questions = [
         default: false,
     },
     {
+        //Provides two prevalent license options
         type: "list",
         name: "licenses",
         message: "Which license would you like to use?",
@@ -156,7 +162,7 @@ const questions = [
 // function to write README file
 const writeToFile = (data) => {
     return new Promise((resolve, reject) => {
-        // create readme file, send to 'new' folder
+        // create README file, send to 'new' folder
         fs.writeFile("./new/README.md", data, (err) => {
             // in case of error, catch
             if (err) {
