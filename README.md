@@ -15,3 +15,5 @@ Instead, you will be running my app through _Node_.
 6: In VS Code, click on the three small dots beside 'Run', then 'Terminal', then 'New Terminal'.
 7: Type *'node index.js'* into the terminal to run the app!
 8: The new readme will be sent to the 'new' folder. When done, navigate to the folder to find it!
+
+
