@@ -4,6 +4,7 @@ const path = require("path");
 // Inquirer is key to this project.
 const inquirer = require("inquirer");
 //access js file
+//when using 'require', I don't need to put '.js' at end of file name
 const generateMarkdown = require("./utils/generateMarkdown");
 
 // array of questions for user
@@ -17,7 +18,7 @@ const questions = [
                 return true;
             } else {
                 console.log(
-                    "Please enter your name! Otherwise I'll put down 'Joe' and people will think it's mine!"
+                    "Please enter your name! Otherwise I'll put down 'Joe' and people will think it's mine, hehe!"
                 );
                 return false;
             }
@@ -46,9 +47,7 @@ const questions = [
             if (emailInput) {
                 return true;
             } else {
-                console.log(
-                    "Your email address, please? You want your user to be able to contact you!"
-                );
+                console.log("Your email address, please?");
                 return false;
             }
         },
@@ -84,7 +83,7 @@ const questions = [
     {
         type: "input",
         name: "installation",
-        message: "How to install?",
+        message: "How to install your programme?",
         validate: (installationInput) => {
             if (installationInput) {
                 return true;
@@ -97,7 +96,7 @@ const questions = [
     {
         type: "input",
         name: "usage",
-        message: "Instructions:",
+        message: "Instructions for usage:",
         validate: (usageInput) => {
             if (usageInput) {
                 return true;
@@ -110,12 +109,12 @@ const questions = [
     {
         type: "input",
         name: "contributors",
-        message: "How can others contribute to this project?",
+        message: "How can others contribute to your project?",
         validate: (contributorsInput) => {
             if (contributorsInput) {
                 return true;
             } else {
-                console.log("How did/can your colleagues contribute?");
+                console.log("How can colleagues contribute?");
                 return false;
             }
         },
@@ -142,7 +141,7 @@ const questions = [
     {
         type: "list",
         name: "licenses",
-        message: "Which license?",
+        message: "Which license would you like to use?",
         choices: ["MIT", "CC--0", ""],
         when: ({ confirmLicenses }) => {
             if (confirmLicenses) {
@@ -155,14 +154,40 @@ const questions = [
 ];
 
 // function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(``);
-}
+const writeToFile = (data) => {
+    return new Promise((resolve, reject) => {
+        // create readme file, send to 'new' folder
+        fs.writeFile("./new/README.md", data, (err) => {
+            // in case of error, catch
+            if (err) {
+                reject(err);
+                // 'return' from function so resolve function isn't reiterated
+                return;
+            }
+            // send data to if all inputs are correct
+            resolve({
+                ok: true,
+                message: console.log(
+                    'Success! Navigate to the "new" folder to see your README!'
+                ),
+            });
+        });
+    });
+};
 
-// function to initialize program
+// function to initialise program
 function init() {
     return inquirer.prompt(questions);
 }
 
-// function call to initialize program
-init();
+// function call to initialise program
+init()
+    .then((userInput) => {
+        return generateMarkdown(userInput);
+    })
+    .then((readmeInfo) => {
+        return writeToFile(readmeInfo);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
